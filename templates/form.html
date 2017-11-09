@@ -25,9 +25,8 @@
         </div>
       </div>
     </nav>
-
-    <div class="container">
-      <form method="POST">
+<div class="container">
+         <form method="POST" action="/create">
         <div class="form-group">
           <input name="header" class="form-control" placeholder="Заголовок" autofocus/>
         </div>
@@ -38,10 +37,23 @@
           <textarea name="body" class="form-control" rows="10" placeholder="Ваша история"></textarea>
         </div>
         <div class="form-group">
-          <button class="btn btn-primary" type="submit">Опубликовать</button>
+          <button id="sendText" type="submit">Create</button>
         </div>
       </form>
     </div><!-- /.container -->
+    <script type="text/javascript">
+    var urlId = Date.now();
+    document.cookie = "urlId=" + urlId
+    sendText.onclick = function() {
+             $.ajax({
+                 data: urlId,
+                 type: 'POST',
+                 url: '/create'
+             });
+         };
+    </script>
+
+    <!-- /.container -->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
