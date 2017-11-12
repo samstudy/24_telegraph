@@ -29,14 +29,14 @@
     <div class="container">
       <form method="POST" action="{{url_for('edit', url_id = post.url_id)}}">
          <div class="form-group">
-          <textarea name="header" class="form-control" placeholder="Заголовок" autofocus/>{{post.header}}</textarea>
+          <textarea name="header" required class="form-control" placeholder="Заголовок" autofocus/>{{post.header}}</textarea>
         </div>
         <div class="form-group">
           <textarea name="signature" class="form-control" placeholder="Подпись"/>{{post.signature}}
           </textarea>
         </div>
         <div class="form-group">
-          <textarea id ="test" name="body" class="form-control" rows="10"  placeholder="Ваша история">{{post.body}}</textarea>
+          <textarea name="body" required class="form-control" rows="10"  placeholder="Ваша история">{{post.body}}</textarea>
         </div>
         <div class="form-group">
           <button onclick="editText()" class="btn btn-primary" type="submit">Save Edited Text</button>
@@ -47,9 +47,11 @@
 
 
 
-
+    <script type="text/javascript">
+    $(document).ready(function() {
+    $('.sendText').bootstrapValidator();});
     <!-- /.container -->
-
+    </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   </body>
