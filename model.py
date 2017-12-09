@@ -1,5 +1,6 @@
 from init import app, db
 
+
 class Post(db.Model):
     __tablename__='Post'
     url_id = db.Column(db.BigInteger, primary_key=True)
@@ -7,7 +8,6 @@ class Post(db.Model):
     header = db.Column(db.String(120))
     signature = db.Column(db.String(120))
     body = db.Column(db.String(1000))
-
 
     def __init__(self, header, signature, body, url_id, user_hash):
         self.header = header

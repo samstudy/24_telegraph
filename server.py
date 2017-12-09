@@ -1,6 +1,6 @@
 from datetime import datetime
-from flask import Flask, render_template, session, redirect, url_for, escape, request
-from flask import make_response
+from flask import Flask, 
+render_template, session, redirect, url_for, escape, request
 from init import app, db
 from model import Post
 
@@ -39,7 +39,8 @@ def create():
     post = Post(header, signature, body, url_id, user_hash)
     db.session.add(post)
     db.session.commit()
-    response = make_response(redirect(url_for('post', url_id=url_id)))
+    response = make_response(redirect(url_for('post',
+                                              url_id=url_id)))
     response.set_cookie('user_hash', user_hash)
     return response
 
