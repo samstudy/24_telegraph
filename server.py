@@ -24,9 +24,9 @@ def post(url_id):
     post = Post.query.filter_by(url_id = url_id).first()
     owner_hash = get_user_hash()
     if post.user_hash == owner_hash:
-        return render_template('edit.html',post = post)
+        return render_template('edit.html',post=post)
     else:
-        return render_template('post.html',post = post)
+        return render_template('post.html',post=post)
     
 
 
@@ -40,7 +40,7 @@ def create():
     post = Post(header, signature, body, url_id, user_hash)
     db.session.add(post)
     db.session.commit()
-    response = make_response(redirect(url_for('post',url_id = url_id)))
+    response = make_response(redirect(url_for('post', url_id=url_id)))
     response.set_cookie('user_hash', user_hash)
     return response
 
@@ -54,9 +54,9 @@ def edit(url_id):
     post.body = request.form['body']
     post.url_id = url_id
     user_hash = get_user_hash()
-    post = Post(post.header, post.signature, post.body,url_id, user_hash)
+    post = Post(post.header, post.signature, post.body, url_id, user_hash)
     db.session.commit()
-    return redirect(url_for('post',url_id = post.url_id))
+    return redirect(url_for('post',url_id=post.url_id))
 
 
 
