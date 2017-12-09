@@ -1,6 +1,6 @@
 from datetime import datetime
-from flask import Flask, \
-render_template, session, redirect, url_for, escape, request
+from flask import Flask, render_template, make_response
+from flask import session, redirect, url_for, escape, request
 from init import app, db
 from model import Post
 
@@ -56,7 +56,7 @@ def edit(url_id):
     post = Post(post.header, post.signature, post.body,
                 url_id, user_hash)
     db.session.commit()
-    return redirect(url_for('post',url_id=post.url_id))
+    return redirect(url_for('post', url_id=post.url_id))
 
 
 if __name__ == "__main__":

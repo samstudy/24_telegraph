@@ -2,7 +2,7 @@ from init import app, db
 
 
 class Post(db.Model):
-    __tablename__='Post'
+    __tablename__ = 'Post'
     url_id = db.Column(db.BigInteger, primary_key=True)
     user_hash = db.Column(db.String(150))
     header = db.Column(db.String(120))
