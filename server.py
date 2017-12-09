@@ -1,9 +1,8 @@
 from flask import Flask, render_template, session, redirect, url_for, escape, request
 from flask import make_response
 from init import app, db
-from model import Posts
+from model import Post
 from datetime import datetime
-
 
 
 def get_user_hash():
@@ -22,8 +21,9 @@ def form():
 
 @app.route('/post/<url_id>',methods=['GET'])
 def post(url_id):
-    post = Posts.query.filter_by(url_id = url_id).first()
-    if request.cookies.get('user_hash'):
+    post = Post.query.filter_by(url_id = url_id).first()
+    owner_hash = get_user_hash()
+    if post.user_hash == owner_hash:
         return render_template('edit.html',post = post)
     else:
         return render_template('post.html',post = post)
@@ -32,15 +32,15 @@ def post(url_id):
 
 @app.route('/create', methods=['POST'])
 def create():
+    user_hash = get_user_hash()
     header = request.form['header']
     signature = request.form['signature']
     body = request.form['body']
     url_id = datetime.today().microsecond
-    post = Posts(header, signature, body, url_id)
+    post = Post(header, signature, body, url_id, user_hash)
     db.session.add(post)
     db.session.commit()
     response = make_response(redirect(url_for('post',url_id = url_id)))
-    user_hash = get_user_hash()
     response.set_cookie('user_hash', user_hash)
     return response
 
@@ -48,16 +48,17 @@ def create():
 
 @app.route('/edit/<url_id>', methods=['POST'])
 def edit(url_id):
-    post = Posts.query.filter_by(url_id = url_id).first()
+    post = Post.query.filter_by(url_id = url_id).first()
     post.header = request.form['header']
     post.signature = request.form['signature']
     post.body = request.form['body']
     post.url_id = url_id
-    post = Posts(post.header, post.signature, post.body,url_id)
+    user_hash = get_user_hash()
+    post = Post(post.header, post.signature, post.body,url_id, user_hash)
     db.session.commit()
     return redirect(url_for('post',url_id = post.url_id))
 
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
