@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import Flask, 
+from flask import Flask, \
 render_template, session, redirect, url_for, escape, request
 from init import app, db
 from model import Post
