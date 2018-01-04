@@ -48,16 +48,18 @@ def create():
 @app.route('/edit/<url_id>', methods=['POST'])
 def edit(url_id):
     post = Post.query.filter_by(url_id=url_id).first()
-    post.header = request.form['header']
-    post.signature = request.form['signature']
-    post.body = request.form['body']
-    post.url_id = url_id
-    user_hash = get_user_hash()
-    post = Post(post.header, post.signature, post.body,
-                url_id, user_hash)
-    db.session.commit()
-    return redirect(url_for('post', url_id=post.url_id))
+    owner_hash = get_user_hash()
+    if post.user_hash == owner_hash:
+        post.header = request.form['header']
+        post.signature = request.form['signature']
+        post.body = request.form['body']
+        post.url_id = url_id
+        post.user_hash = owner_hash
+        db.session.commit()
+        return redirect(url_for('post', url_id=post.url_id))
+    else:
+        return render_template('post.html', post=post)
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0')
